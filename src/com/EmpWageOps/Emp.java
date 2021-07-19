@@ -63,8 +63,20 @@ class EmpWage {
 public class Emp {
 
     public static void main(String[] args) {
-        EmpWage e = new EmpWage();
-        e.setVariables(20, 10, 120);
-        e.setTotalMonthWage();
+
+        EmpWage ibm = new EmpWage();
+        System.out.println("Employee Wage for 'IBM': ");
+        ibm.setVariables(450, 25, 150);
+        ibm.setTotalMonthWage();
+
+        EmpWage tcs = new EmpWage();
+        System.out.println("Employee Wage for 'TCS': ");
+        tcs.setVariables(380, 23, 150);
+        tcs.setTotalMonthWage();
+
+        EmpWage hcl = new EmpWage();
+        System.out.println("Employee Wage for 'HCL': ");
+        hcl.setVariables(320, 20, 150);
+        hcl.setTotalMonthWage();
     }
 }
