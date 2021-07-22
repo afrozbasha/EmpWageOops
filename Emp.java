@@ -1,93 +1,115 @@
 package com.EmpWageOps;
-import java.util.Random;
 
+package src;
 
-class EmpWage {
-    private static final int FULLDAYHR = 8, PARTTIMEHR = 4;
-    private int totalMonthWage = 0;
-    static int checkEmp;
-     int totalHrCount = 0;
+import java.util.Scanner;
 
-    private int wageHr;
-    private int workDaysLimit;
-    private int hrLimit;
+class CompnyWage {
 
-    public void setVariables(int x, int y, int z){
-        this.wageHr = x;
-        this.workDaysLimit = y;
-        this.hrLimit = z;
+    public String company;
+    public int wagePerHr;
+    public int maxMonthHr;
+    public int workingDays;
+    public int fullTimeHr;
+    public int partTimeHr;
+    public int totalEmpWage;
+
+    public CompnyWage(String company, int wagePerHr, int maxMonthHr, int workingDays, int fullTimeHr, int partTimeHr) {
+        this.company = company;
+        this.wagePerHr = wagePerHr;
+        this.maxMonthHr = maxMonthHr;
+        this.workingDays = workingDays;
+        this.fullTimeHr = fullTimeHr;
+        this.partTimeHr = partTimeHr;
     }
 
-    public static void setCheckEmp(){
-        Random rdm = new Random();
-        int rd = rdm.nextInt(3);
-        checkEmp = rd;
+    public void setTotalEmpWage(int totalEmpWage) {
+        this.totalEmpWage = totalEmpWage;
     }
 
-    public void  setTotalMonthWage(){
-        int day=0;
-        while (workDaysLimit>0){
-            setCheckEmp();
-            switch (checkEmp){
-                case 1:
-                    totalMonthWage = totalMonthWage + (wageHr * FULLDAYHR);
-                    totalHrCount +=  FULLDAYHR;
-                    workDaysLimit--;
-                    day++;
-                    System.out.println("Day:"+day+"  Wage : "+totalMonthWage+" Working Hrs : "+totalHrCount);
-                    break;
-                case 2:
-                    totalMonthWage = totalMonthWage + (wageHr * PARTTIMEHR);
-                    totalHrCount += PARTTIMEHR;
-                    workDaysLimit--;
-                    day++;
-                    System.out.println("Day:"+day+"  Wage : "+totalMonthWage+" Working Hrs : "+totalHrCount);
-                case 3:
-                    workDaysLimit--;
-                    day++;
-                    System.out.print("Day:"+day+"  Wage : "+totalMonthWage+" Working Hrs : "+totalHrCount);
-                    System.out.println("<---Employee was Absent");
-                default:
-                    if (totalHrCount == hrLimit)
-                        break;
-
-            }
-
-        }
-        System.out.println("\nTotal Wage of the Month : "+totalMonthWage);
-        System.out.println("Total Hrs of the Employee : "+totalHrCount);
-
-    }
-    public String printToData(){
-        return  "\nTotal Wage of the Month : "+totalMonthWage+"\nTotal Hrs of the Employee : "+totalHrCount;
-
+    public String toString() {
+        return "Total Emp Wage For Company: " + company + " is " + totalEmpWage;
     }
 }
 
-public class Emp {
+class Emp {
+    private static final int IS_FULL_TIME = 1;
+    private static final int IS_PART_TIME = 2;
+
+    public int numOfCmpny=0;
+    public CompnyWage[] compnyWageArray;
+
+    public EmpWageMain(int a){
+        compnyWageArray = new CompnyWage[a];
+    }
+
+
+    public void addCompanyEmpWage(String company, int wagePerHr, int maxMonthHr, int workingDays, int fullTimeHr, int partTimeHr) {
+        compnyWageArray[numOfCmpny] = new CompnyWage(company,wagePerHr,maxMonthHr,workingDays,fullTimeHr,partTimeHr);
+        numOfCmpny++;
+    }
+
+    public void computeEmpWage(){
+        for (int i=0; i<numOfCmpny; i++){
+            compnyWageArray[i].setTotalEmpWage(computeEmpWage(compnyWageArray[i].company,compnyWageArray[i].wagePerHr,compnyWageArray[i].maxMonthHr,compnyWageArray[i].workingDays,compnyWageArray[i].fullTimeHr,compnyWageArray[i].partTimeHr));
+            System.out.println(compnyWageArray[i]);
+        }
+    }
+
+    public static int computeEmpWage(String company, int wagePerHr, int maxMonthHr, int workingDays, int fullTimeHr, int partTimeHr){
+        int empHr = 0;
+        int totalEmpHr = 0;
+        int days = 0;
+
+        while (empHr <= maxMonthHr && days <= workingDays) {
+
+            double empCheck = Math.floor(Math.random() * 10) % 3;
+            int empCheck1 = (int) empCheck;
+
+            switch (empCheck1) {
+                case IS_FULL_TIME:
+                    empHr = fullTimeHr;
+                    break;
+                case IS_PART_TIME:
+                    empHr = partTimeHr;
+                    break;
+                default:
+                    empHr = 0;
+            }
+            totalEmpHr = totalEmpHr + empHr;
+            days++;
+        }
+        int totalWage = totalEmpHr * wagePerHr;
+        return totalWage;
+    }
+
 
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("How Many Company U Want");
+        int cmpnysCount = sc.nextInt();
+        EmpWageMain obj = new EmpWageMain(cmpnysCount);
+        for (int i = 0; i < cmpnysCount; i++) {
+            System.out.println("Enter Details for Company: "+ (i+1));
+            System.out.println("===================================");
+            System.out.println("Cmpny Name: " );
+            String cmpnyName = sc.next();
+            System.out.println("Cmpny Wage Per Hour");
+            int wagePerHr = sc.nextInt();
+            System.out.println("Cmpny Max Month Hour");
+            int maxMonthHr = sc.nextInt();
+            System.out.println("Cmpny Month Work Days");
+            int workDays = sc.nextInt();
+            System.out.println("Cmpny Full Time Hour");
+            int fullTimeHr = sc.nextInt();
+            System.out.println("Cmpny Part Time Hour ");
+            int partTimeHr = sc.nextInt();
 
-        EmpWage ibm = new EmpWage();
-        System.out.println("Employee Wage for 'IBM': ");
-        ibm.setVariables(450, 25, 150);
-        ibm.setTotalMonthWage();
-
-        EmpWage tcs = new EmpWage();
-        System.out.println("Employee Wage for 'TCS': ");
-        tcs.setVariables(380, 23, 150);
-        tcs.setTotalMonthWage();
-
-        EmpWage hcl = new EmpWage();
-        System.out.println("Employee Wage for 'HCL': ");
-        hcl.setVariables(320, 20, 150);
-        hcl.setTotalMonthWage();
-
-        //save the Total Wage for Each Company
-        System.out.println("\nList Data");
-        System.out.println(ibm.printToData());
-        System.out.println(tcs.printToData());
-        System.out.println(hcl.printToData());
-
+            obj.addCompanyEmpWage(cmpnyName,wagePerHr,maxMonthHr,workDays,fullTimeHr,partTimeHr);
+            obj.computeEmpWage();
+        }
+        for (int i=0; i<cmpnysCount; i++){
+            System.out.println(obj.compnyWageArray);
+        }
     }
 }
