@@ -4,9 +4,9 @@ import java.util.Random;
 
 class EmpWage {
     private static final int FULLDAYHR = 8, PARTTIMEHR = 4;
-    private static int totalMonthWage = 0;
+    private int totalMonthWage = 0;
     static int checkEmp;
-    static int totalHrCount = 0;
+     int totalHrCount = 0;
 
     private int wageHr;
     private int workDaysLimit;
@@ -58,6 +58,10 @@ class EmpWage {
         System.out.println("Total Hrs of the Employee : "+totalHrCount);
 
     }
+    public String printToData(){
+        return  "\nTotal Wage of the Month : "+totalMonthWage+"\nTotal Hrs of the Employee : "+totalHrCount;
+
+    }
 }
 
 public class Emp {
@@ -78,5 +82,12 @@ public class Emp {
         System.out.println("Employee Wage for 'HCL': ");
         hcl.setVariables(320, 20, 150);
         hcl.setTotalMonthWage();
+
+        //save the Total Wage for Each Company
+        System.out.println("\nList Data");
+        System.out.println(ibm.printToData());
+        System.out.println(tcs.printToData());
+        System.out.println(hcl.printToData());
+
     }
 }
